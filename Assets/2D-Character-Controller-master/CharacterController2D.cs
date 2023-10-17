@@ -19,6 +19,7 @@ public class CharacterController2D : MonoBehaviour
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
 
+
 	[Header("Events")]
 	[Space]
 
@@ -29,8 +30,16 @@ public class CharacterController2D : MonoBehaviour
 
 	public BoolEvent OnCrouchEvent;
 	private bool m_wasCrouching = false;
+    public bool deathState = false;
 
-	private void Awake()
+    private GameManager gameManager;
+
+    void Start()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
+
+    private void Awake()
 	{
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
@@ -143,4 +152,29 @@ public class CharacterController2D : MonoBehaviour
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Coin")
+        {
+            gameManager.coinsCounter += 1;
+            Destroy(other.gameObject);
+            Debug.Log("Player has collected a coin!");
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
+			deathState = true; // Say to GameManager that player is dead
+        }
+        else
+        {
+			deathState = false;
+        }
+    }
+
+
+
 }
