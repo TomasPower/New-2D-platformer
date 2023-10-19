@@ -20,8 +20,8 @@ public class GameManager : MonoBehaviour
 
         if (player.deathState == true)
         {
-            // Reload the scene after 3 seconds
-            Invoke("ReloadLevel", 3);
+            // Reload the scene after 0.1 seconds
+            Invoke("ReloadLevel", 0.1f);
         }
     }
 
@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
 
 }
 
